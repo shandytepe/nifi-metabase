@@ -64,6 +64,23 @@ services:
         networks:
             - my_network
 
+    # database postgres warehouse
+    postgres_dwh:
+        hostname: postgres_dwh
+        container_name: postgres_dwh_container
+        image: 'postgres:latest'
+        restart: on-failure
+        environment:
+            - POSTGRES_DB=pachotel_dwh
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=cobapassword
+        volumes:
+            - ./postgres_dwh/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - 5437:5432
+        networks:
+            - my_network
+
     # visualization tools
     metabase:
         hostname: metabase
