@@ -27,6 +27,8 @@ services:
             - NIFI_ZK_CONNECT_STRING=zookeeper:2181
             - NIFI_ELECTION_MAX_WAIT=30 sec
             - NIFI_SENSITIVE_PROPS_KEY='12345678901234567890A'
+            - NIFI_JVM_HEAP_INIT=2g
+            - NIFI_JVM_HEAP_MAX=2g
         healthcheck:
             test: "${DOCKER_HEALTHCHECK_TEST:-curl localhost:8091/nifi/}"
             interval: "60s"
