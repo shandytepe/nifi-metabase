@@ -10,7 +10,7 @@ Merupakan repository yang digunakan untuk kebutuhan Workshop Intro to Data Engin
 3. Dump to Data Warehouse
 4. Membuat Visualisasi dan Analisa menggunakan Metabase
 
-![workflow_workshop.png](assets/workflow_workshop.jpg)
+![workflow_workshop.png](assets/workflow-workshop.png)
 
 ## **Tools**
 ---
