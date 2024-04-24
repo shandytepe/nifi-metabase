@@ -50,36 +50,36 @@ services:
             - my_network
 
     # database source
-    postgres:
-        hostname: postgres
-        container_name: postgres_container
+    postgres_chinook_source:
+        hostname: postgres_chinook_source
+        container_name: postgres_chinook_container
         image: 'postgres:latest'
         restart: on-failure
         environment:
-            - POSTGRES_DB=pachotel_dbt
+            - POSTGRES_DB=chinook_db
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=cobapassword
         volumes:
-            - ./postgres_source/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./chinook_data_source/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
-            - 5436:5432
+            - 5438:5432
         networks:
             - my_network
 
     # database postgres warehouse
-    postgres_dwh:
-        hostname: postgres_dwh
-        container_name: postgres_dwh_container
+    postgres_chinook_dwh:
+        hostname: postgres_chinook_dwh
+        container_name: postgres_chinook_dwh_container
         image: 'postgres:latest'
         restart: on-failure
         environment:
-            - POSTGRES_DB=pachotel_dwh
+            - POSTGRES_DB=chinook_dwh
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=cobapassword
         volumes:
-            - ./postgres_dwh/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./chinook_data_warehouse/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
-            - 5437:5432
+            - 5439:5432
         networks:
             - my_network
 
