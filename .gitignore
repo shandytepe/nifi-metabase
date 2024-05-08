@@ -6,3 +6,5 @@ nifi/flowfile_repository/
 nifi/logs/
 nifi/provenance_repository/
 nifi/state/
+nifi/conf/
+nifi/scripts/
