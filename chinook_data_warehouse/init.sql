@@ -2,150 +2,274 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
-CREATE TABLE dim_album (
-    album_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_album_id integer NOT NULL,
-    title character varying(160) NOT NULL,
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+CREATE TABLE public.dim_album (
+	album_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_album_id int4 NOT NULL,
+	title varchar(160) NOT NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_album_pkey PRIMARY KEY (album_id),
+	CONSTRAINT unique_title_album UNIQUE (nk_album_id, title)
 );
 
-CREATE TABLE dim_artist (
-    artist_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_artist_id integer NOT NULL,
-    name character varying(120),
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_artist definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_artist;
+
+CREATE TABLE public.dim_artist (
+	artist_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_artist_id int4 NOT NULL,
+	"name" varchar(120) NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_artist_pkey PRIMARY KEY (artist_id),
+	CONSTRAINT unique_artist_name UNIQUE (nk_artist_id)
 );
 
-CREATE TABLE dim_customer (
-    customer_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_customer_id integer NOT NULL,
-    first_name character varying(40) NOT NULL,
-    last_name character varying(20) NOT NULL,
-    company character varying(80),
-    address character varying(70),
-    city character varying(40),
-    state character varying(40),
-    country character varying(40),
-    postal_code character varying(10),
-    phone character varying(24),
-    fax character varying(24),
-    email character varying(60) NOT NULL,
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_customer definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_customer;
+
+CREATE TABLE public.dim_customer (
+	customer_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_customer_id int4 NOT NULL,
+	first_name varchar(40) NOT NULL,
+	last_name varchar(20) NOT NULL,
+	company varchar(80) NULL,
+	address varchar(70) NULL,
+	city varchar(40) NULL,
+	state varchar(40) NULL,
+	country varchar(40) NULL,
+	postal_code varchar(10) NULL,
+	phone varchar(24) NULL,
+	fax varchar(24) NULL,
+	email varchar(60) NOT NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_customer_pkey PRIMARY KEY (customer_id),
+	CONSTRAINT unique_customer UNIQUE (nk_customer_id)
 );
 
-CREATE TABLE dim_date (
-    date_id integer NOT NULL,
-    date_actual date NOT NULL,
-    day_suffix character varying(4) NOT NULL,
-    day_name character varying(9) NOT NULL,
-    day_of_year integer NOT NULL,
-    week_of_month integer NOT NULL,
-    week_of_year integer NOT NULL,
-    week_of_year_iso character(10) NOT NULL,
-    month_actual integer NOT NULL,
-    month_name character varying(9) NOT NULL,
-    month_name_abbreviated character(3) NOT NULL,
-    quarter_actual integer NOT NULL,
-    quarter_name character varying(9) NOT NULL,
-    year_actual integer NOT NULL,
-    first_day_of_week date NOT NULL,
-    last_day_of_week date NOT NULL,
-    first_day_of_month date NOT NULL,
-    last_day_of_month date NOT NULL,
-    first_day_of_quarter date NOT NULL,
-    last_day_of_quarter date NOT NULL,
-    first_day_of_year date NOT NULL,
-    last_day_of_year date NOT NULL,
-    mmyyyy character(6) NOT NULL,
-    mmddyyyy character(10) NOT NULL,
-    weekend_indr character varying(20) NOT NULL
+
+-- public.dim_date definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_date;
+
+CREATE TABLE public.dim_date (
+	date_id int4 NOT NULL,
+	date_actual date NOT NULL,
+	day_suffix varchar(4) NOT NULL,
+	day_name varchar(9) NOT NULL,
+	day_of_year int4 NOT NULL,
+	week_of_month int4 NOT NULL,
+	week_of_year int4 NOT NULL,
+	week_of_year_iso bpchar(10) NOT NULL,
+	month_actual int4 NOT NULL,
+	month_name varchar(9) NOT NULL,
+	month_name_abbreviated bpchar(3) NOT NULL,
+	quarter_actual int4 NOT NULL,
+	quarter_name varchar(9) NOT NULL,
+	year_actual int4 NOT NULL,
+	first_day_of_week date NOT NULL,
+	last_day_of_week date NOT NULL,
+	first_day_of_month date NOT NULL,
+	last_day_of_month date NOT NULL,
+	first_day_of_quarter date NOT NULL,
+	last_day_of_quarter date NOT NULL,
+	first_day_of_year date NOT NULL,
+	last_day_of_year date NOT NULL,
+	mmyyyy bpchar(6) NOT NULL,
+	mmddyyyy bpchar(10) NOT NULL,
+	weekend_indr varchar(20) NOT NULL,
+	CONSTRAINT dim_date_pkey PRIMARY KEY (date_id)
 );
 
-CREATE TABLE dim_employee (
-    employee_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_employee_id integer NOT NULL,
-    last_name character varying(20) NOT NULL,
-    first_name character varying(20) NOT NULL,
-    title character varying(30),
-    birth_date timestamp without time zone,
-    hire_date timestamp without time zone,
-    address character varying(70),
-    city character varying(40),
-    state character varying(40),
-    country character varying(40),
-    postal_code character varying(10),
-    phone character varying(24),
-    fax character varying(24),
-    email character varying(60),
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_employee definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_employee;
+
+CREATE TABLE public.dim_employee (
+	employee_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_employee_id int4 NOT NULL,
+	last_name varchar(20) NOT NULL,
+	first_name varchar(20) NOT NULL,
+	title varchar(30) NULL,
+	birth_date timestamp NULL,
+	hire_date timestamp NULL,
+	address varchar(70) NULL,
+	city varchar(40) NULL,
+	state varchar(40) NULL,
+	country varchar(40) NULL,
+	postal_code varchar(10) NULL,
+	phone varchar(24) NULL,
+	fax varchar(24) NULL,
+	email varchar(60) NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_employee_pkey PRIMARY KEY (employee_id),
+	CONSTRAINT unique_emp UNIQUE (nk_employee_id)
 );
 
-CREATE TABLE dim_genre (
-    genre_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_genre_id integer NOT NULL,
-    name character varying(120),
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_genre definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_genre;
+
+CREATE TABLE public.dim_genre (
+	genre_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_genre_id int4 NOT NULL,
+	"name" varchar(120) NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_genre_pkey PRIMARY KEY (genre_id)
 );
 
-CREATE TABLE dim_media_type (
-    media_type_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_media_type_id integer NOT NULL,
-    name character varying(120),
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_media_type definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_media_type;
+
+CREATE TABLE public.dim_media_type (
+	media_type_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_media_type_id int4 NOT NULL,
+	"name" varchar(120) NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT dim_media_type_pkey PRIMARY KEY (media_type_id),
+	CONSTRAINT unique_media_type UNIQUE (nk_media_type_id)
 );
 
-CREATE TABLE dim_time (
-    time_id integer NOT NULL,
-    time_actual time without time zone NOT NULL,
-    hours_24 character(2) NOT NULL,
-    hours_12 character(2) NOT NULL,
-    hour_minutes character(2) NOT NULL,
-    day_minutes integer NOT NULL,
-    day_time_name character varying(20) NOT NULL,
-    day_night character varying(20) NOT NULL
+
+-- public.dim_time definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_time;
+
+CREATE TABLE public.dim_time (
+	time_id int4 NOT NULL,
+	time_actual time NOT NULL,
+	hours_24 bpchar(2) NOT NULL,
+	hours_12 bpchar(2) NOT NULL,
+	hour_minutes bpchar(2) NOT NULL,
+	day_minutes int4 NOT NULL,
+	day_time_name varchar(20) NOT NULL,
+	day_night varchar(20) NOT NULL,
+	CONSTRAINT time_pk PRIMARY KEY (time_id)
 );
 
-CREATE TABLE dim_track (
-    track_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    nk_track_id integer NOT NULL,
-    name character varying(200) NOT NULL,
-    composer character varying(220),
-    milliseconds integer NOT NULL,
-    bytes integer,
-    unit_price numeric(10,2) NOT NULL,
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.dim_track definition
+
+-- Drop table
+
+-- DROP TABLE public.dim_track;
+
+CREATE TABLE public.dim_track (
+	track_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	nk_track_id int4 NOT NULL,
+	"name" varchar(200) NULL,
+	composer varchar(220) NULL,
+	milliseconds int4 NULL,
+	bytes int4 NULL,
+	unit_price numeric(10, 2) NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	acousticness float8 NULL,
+	danceability float8 NULL,
+	duration_ms int4 NULL,
+	energy float8 NULL,
+	instrumentalness float8 NULL,
+	"key" int4 NULL,
+	liveness float8 NULL,
+	loudness float8 NULL,
+	"mode" int4 NULL,
+	speechiness float8 NULL,
+	tempo float8 NULL,
+	time_signature int4 NULL,
+	valence float8 NULL,
+	CONSTRAINT dim_track_pkey PRIMARY KEY (track_id),
+	CONSTRAINT unique_track UNIQUE (nk_track_id, unit_price)
 );
 
-CREATE TABLE fct_sales_transaction (
-    sales_transaction_id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    invoice_id integer NOT NULL,
-    customer_id uuid,
-    employee_id uuid,
-    track_id uuid,
-    media_type_id uuid,
-    genre_id uuid,
-    album_id uuid,
-    artist_id uuid,
-    invoice_date integer NOT NULL,
-    invoice_time integer NOT NULL,
-    billing_address character varying(70),
-    billing_city character varying(40),
-    billing_state character varying(40),
-    billing_country character varying(40),
-    billing_postal_code character varying(10),
-    unit_price numeric,
-    quantity integer,
-    total_invoice numeric(10,2) NOT NULL,
-    created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+
+-- public.fct_sales_transaction definition
+
+-- Drop table
+
+-- DROP TABLE public.fct_sales_transaction;
+
+CREATE TABLE public.fct_sales_transaction (
+	sales_transaction_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	invoice_id int4 NOT NULL,
+	customer_id uuid NULL,
+	employee_id uuid NULL,
+	track_id uuid NULL,
+	media_type_id uuid NULL,
+	genre_id uuid NULL,
+	album_id uuid NULL,
+	artist_id uuid NULL,
+	invoice_date int4 NOT NULL,
+	invoice_time int4 NOT NULL,
+	billing_address varchar(70) NULL,
+	billing_city varchar(40) NULL,
+	billing_state varchar(40) NULL,
+	billing_country varchar(40) NULL,
+	billing_postal_code varchar(10) NULL,
+	unit_price numeric NULL,
+	quantity int4 NULL,
+	total_invoice numeric(10, 2) NOT NULL,
+	created_at timestamp NULL DEFAULT now(),
+	updated_at timestamp NULL DEFAULT now(),
+	CONSTRAINT fct_sales_transaction_pkey PRIMARY KEY (sales_transaction_id),
+	CONSTRAINT fk_sales_transaction_album FOREIGN KEY (album_id) REFERENCES public.dim_album(album_id),
+	CONSTRAINT fk_sales_transaction_artist FOREIGN KEY (artist_id) REFERENCES public.dim_artist(artist_id),
+	CONSTRAINT fk_sales_transaction_customer FOREIGN KEY (customer_id) REFERENCES public.dim_customer(customer_id),
+	CONSTRAINT fk_sales_transaction_date FOREIGN KEY (invoice_date) REFERENCES public.dim_date(date_id),
+	CONSTRAINT fk_sales_transaction_employee FOREIGN KEY (employee_id) REFERENCES public.dim_employee(employee_id),
+	CONSTRAINT fk_sales_transaction_genre FOREIGN KEY (genre_id) REFERENCES public.dim_genre(genre_id),
+	CONSTRAINT fk_sales_transaction_media_type FOREIGN KEY (media_type_id) REFERENCES public.dim_media_type(media_type_id),
+	CONSTRAINT fk_sales_transaction_time FOREIGN KEY (invoice_time) REFERENCES public.dim_time(time_id),
+	CONSTRAINT fk_sales_transaction_track FOREIGN KEY (track_id) REFERENCES public.dim_track(track_id)
 );
+
+ALTER TABLE dim_genre 
+ADD CONSTRAINT unique_nk_genre UNIQUE(nk_genre_id);
+
+ALTER TABLE fct_sales_transaction 
+ADD CONSTRAINT unique_invoice UNIQUE(invoice_id, track_id);
+
+
+CREATE SCHEMA test;
+
+CREATE TABLE test.products (
+ 	id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    description TEXT,
+    price DECIMAL(10, 2),
+    discountPercentage numeric,
+    rating DECIMAL(3, 2),
+    stock INT,
+    brand VARCHAR(100),
+    category VARCHAR(100),
+    thumbnail VARCHAR(255)
+);
+
 
 INSERT INTO dim_date (date_id, date_actual, day_suffix, day_name, day_of_year, week_of_month, week_of_year, week_of_year_iso, month_actual, month_name, month_name_abbreviated, quarter_actual, quarter_name, year_actual, first_day_of_week, last_day_of_week, first_day_of_month, last_day_of_month, first_day_of_quarter, last_day_of_quarter, first_day_of_year, last_day_of_year, mmyyyy, mmddyyyy, weekend_indr) VALUES (20050101, '2005-01-01', '1st', 'Saturday', 1, 1, 53, '2004-W53  ', 1, 'January', 'Jan', 1, 'First', 2005, '2004-12-27', '2005-01-02', '2005-01-01', '2005-01-31', '2005-01-01', '2005-03-31', '2005-01-01', '2005-12-31', '012005', '01012005  ', 'weekend');
 INSERT INTO dim_date (date_id, date_actual, day_suffix, day_name, day_of_year, week_of_month, week_of_year, week_of_year_iso, month_actual, month_name, month_name_abbreviated, quarter_actual, quarter_name, year_actual, first_day_of_week, last_day_of_week, first_day_of_month, last_day_of_month, first_day_of_quarter, last_day_of_quarter, first_day_of_year, last_day_of_year, mmyyyy, mmddyyyy, weekend_indr) VALUES (20050102, '2005-01-02', '2nd', 'Sunday', 2, 1, 53, '2004-W53  ', 1, 'January', 'Jan', 1, 'First', 2005, '2004-12-27', '2005-01-02', '2005-01-01', '2005-01-31', '2005-01-01', '2005-03-31', '2005-01-01', '2005-12-31', '012005', '01022005  ', 'weekend');
@@ -5736,149 +5860,3 @@ INSERT INTO dim_time (time_id,time_actual,hours_24,hours_12,hour_minutes,day_min
 	 (2359,'23:59:00','23','11','59',1439,'PM','Night');
 
 
-ALTER TABLE ONLY dim_album
-    ADD CONSTRAINT dim_album_pkey PRIMARY KEY (album_id);
-
-
---
--- Name: dim_artist dim_artist_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_artist
-    ADD CONSTRAINT dim_artist_pkey PRIMARY KEY (artist_id);
-
-
---
--- Name: dim_customer dim_customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_customer
-    ADD CONSTRAINT dim_customer_pkey PRIMARY KEY (customer_id);
-
-
---
--- Name: dim_date dim_date_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_date
-    ADD CONSTRAINT dim_date_pkey PRIMARY KEY (date_id);
-
-
---
--- Name: dim_employee dim_employee_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_employee
-    ADD CONSTRAINT dim_employee_pkey PRIMARY KEY (employee_id);
-
-
---
--- Name: dim_genre dim_genre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_genre
-    ADD CONSTRAINT dim_genre_pkey PRIMARY KEY (genre_id);
-
-
---
--- Name: dim_media_type dim_media_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_media_type
-    ADD CONSTRAINT dim_media_type_pkey PRIMARY KEY (media_type_id);
-
-
---
--- Name: dim_track dim_track_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_track
-    ADD CONSTRAINT dim_track_pkey PRIMARY KEY (track_id);
-
-
---
--- Name: fct_sales_transaction fct_sales_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fct_sales_transaction_pkey PRIMARY KEY (sales_transaction_id);
-
-
---
--- Name: dim_time time_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY dim_time
-    ADD CONSTRAINT time_pk PRIMARY KEY (time_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_album; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_album FOREIGN KEY (album_id) REFERENCES dim_album(album_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_artist; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_artist FOREIGN KEY (artist_id) REFERENCES dim_artist(artist_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_customer; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_customer FOREIGN KEY (customer_id) REFERENCES dim_customer(customer_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_date; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_date FOREIGN KEY (invoice_date) REFERENCES dim_date(date_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_employee; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_employee FOREIGN KEY (employee_id) REFERENCES dim_employee(employee_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_genre; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_genre FOREIGN KEY (genre_id) REFERENCES dim_genre(genre_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_media_type; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_media_type FOREIGN KEY (media_type_id) REFERENCES dim_media_type(media_type_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_time; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_time FOREIGN KEY (invoice_time) REFERENCES dim_time(time_id);
-
-
---
--- Name: fct_sales_transaction fk_sales_transaction_track; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY fct_sales_transaction
-    ADD CONSTRAINT fk_sales_transaction_track FOREIGN KEY (track_id) REFERENCES dim_track(track_id);
