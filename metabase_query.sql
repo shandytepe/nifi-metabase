@@ -92,3 +92,14 @@ final as (
 	from get_avg_transaction
 )
 select * from final
+
+-- get most popular artist
+select 
+	da.name,
+	count(fst.artist_id) popular_artist
+from fct_sales_transaction fst 
+join dim_artist da 
+	on da.artist_id = fst.artist_id 
+group by 1
+order by popular_artist desc
+limit 1
