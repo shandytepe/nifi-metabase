@@ -71,3 +71,24 @@ order by
         when day_name = 'Saturday' then 6
         when day_name = 'Sunday' then 7
     end asc
+
+-- get average sales month to month
+with get_avg_transaction as (
+	select 
+	    dd.month_actual,
+	    dd.year_actual,
+	    to_char(to_date(concat(dd.month_actual, ' ', dd.year_actual), 'MM-YYYY'), 'Mon YYYY') AS group_timeseries,
+	    avg(fst.total_invoice) as avg_transaction 
+	from fct_sales_transaction fst
+	join dim_date dd 
+	    on dd.date_id = fst.invoice_date
+	group by 1,2
+	order by dd.year_actual, dd.month_actual
+),
+final as (
+	select 
+		group_timeseries,
+		avg_transaction
+	from get_avg_transaction
+)
+select * from final
