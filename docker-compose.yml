@@ -44,7 +44,7 @@ services:
             - ./nifi/data:/opt/nifi/nifi-current/data
             - ./nifi/drivers:/opt/nifi/nifi-current/drivers
             - ./nifi/scripts:/opt/nifi/nifi-current/scripts
-            - ./nifi/conf:/opt/nifi/nifi-current/conf
+#            - ./nifi/conf:/opt/nifi/nifi-current/conf
         networks:
             - my_network
 
